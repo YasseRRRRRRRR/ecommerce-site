@@ -22,7 +22,10 @@ const StripeStuff = ({
       stripe={stripePromise}
       options={{
         mode: "payment",
-        amount: convertToSubcurrency(amount),
+        amount:
+          amount > 0
+            ? convertToSubcurrency(amount)
+            : convertToSubcurrency(10.0),
         currency: "eur",
       }}
     >

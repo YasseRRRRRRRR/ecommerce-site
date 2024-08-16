@@ -1,22 +1,29 @@
 import StripeStuff from "./components/stripeStuff";
+import { createClient } from "@supabase/supabase-js";
+import Testing from "./components/testing";
+import Products from "./components/Products";
+import supabase from "./config/supabaseClient";
 
 export default async function Home({
   params: { locale },
 }: {
   params: { locale: string };
 }) {
-  const amount = 10.99;
+  // const amount = 10.99;
 
+  // Assuming you want to display the price of the first product
+  // const Product_prices =
+  //   products && products.length > 0 ? products[0].price : 0;
   return (
     <div className="flex flex-col justify-center h-screen items-center">
-      I request <span className="text-red-500">$ {amount}</span>
-      {/* <button
-        className="mt-4 px-6 py-2 border-2 border-red-600 bg-red-600 text-white hover:bg-white hover:text-red-600 ease-in duration-150 rounded-md"
-        onClick={handleCheckout}
-      >
-        Checkout
-      </button> */}
-      <StripeStuff amount={amount} locale={locale} />
+      {/* I request <span className="text-red-500">$ {the_amountfromthedb}</span> */}
+      <Products
+        params={{
+          locale: locale,
+        }}
+      />
+      {/* <Testing Products={Product_prices} /> */}
+      {/* <StripeStuff amount={Product_prices} locale={locale} /> */}
     </div>
   );
 }
