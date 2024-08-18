@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import Image from "next/image";
 import { Description, Label, Radio, RadioGroup } from "@headlessui/react";
+import { useUnicycleSizes } from "./../../../hooks/useUnicycleSizes";
 
 const ProductDetails = (Product: any) => {
   function classNames(...classes) {
@@ -57,7 +58,11 @@ const ProductDetails = (Product: any) => {
     mailingLists[0]
   );
 
-  const [selectedSize, setSelectedSize] = useState(sizes[0]);
+  const selectedSizes = useUnicycleSizes(Product.Product.sizes);
+  // testing the hook
+  // console.log(selectedSizes);
+
+  const [selectedSize, setSelectedSize] = useState(selectedSizes[0]);
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
@@ -179,7 +184,7 @@ const ProductDetails = (Product: any) => {
                     onChange={setSelectedSize}
                     className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4"
                   >
-                    {sizes.map((size) => (
+                    {selectedSizes.map((size) => (
                       <Radio
                         key={size.id}
                         value={size}
