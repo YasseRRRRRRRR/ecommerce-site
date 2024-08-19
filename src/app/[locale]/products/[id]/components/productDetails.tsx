@@ -1,7 +1,7 @@
 "use client";
-
 import {
   CheckCircleIcon,
+  CheckIcon,
   CircleHelp,
   ShieldCheck,
   StarIcon,
@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import Image from "next/image";
 import { Description, Label, Radio, RadioGroup } from "@headlessui/react";
-import { useUnicycleSizes } from "./../../../hooks/useUnicycleSizes";
+import { useUnicycleSizes } from "../../../../hooks/useUnicycleSizes";
 
 const ProductDetails = (Product: any) => {
   function classNames(...classes) {
@@ -17,47 +17,9 @@ const ProductDetails = (Product: any) => {
   }
   const reviews = { average: 4, totalCount: 1624 };
   const breadcrumbs = [
-    { id: 1, name: "Travel", href: "/" },
-    { id: 2, name: "Bags", href: "/" },
+    { id: 1, name: "Home", href: "/" },
+    { id: 2, name: `${Product.Product.name}`, href: "" },
   ];
-  const sizes = [
-    // {
-    //   id: 1,
-    //   name: '14" ',
-    //   description:
-    //     "Perfect for kids under 12, providing easy control on smooth surfaces.",
-    // },
-    {
-      id: 2,
-      name: '20"',
-      description:
-        "Ideal for tricks and freestyle on flat surfaces, popular among teens and adults.",
-    },
-    {
-      id: 3,
-      name: '36"',
-      description:
-        "Designed for high-speed riding on paved paths, best for experienced riders.",
-    },
-  ];
-  const mailingLists = [
-    {
-      id: 1,
-      title: "Newsletter",
-      description: "Last message sent an hour ago",
-      users: "621 users",
-    },
-    {
-      id: 2,
-      title: "Existing Customers",
-      description: "Last message sent 2 weeks ago",
-      users: "1200 users",
-    },
-  ];
-  const [selectedMailingLists, setSelectedMailingLists] = useState(
-    mailingLists[0]
-  );
-
   const selectedSizes = useUnicycleSizes(Product.Product.sizes);
   // testing the hook
   // console.log(selectedSizes);
@@ -144,7 +106,10 @@ const ProductDetails = (Product: any) => {
             </div>
 
             <div className="mt-6 flex items-center">
-              {/* <CheckIcon className="flex-shrink-0 w-5 h-5 text-green-500" aria-hidden="true" /> */}
+              <CheckIcon
+                className="flex-shrink-0 w-5 h-5 text-green-500"
+                aria-hidden="true"
+              />
               <p className="ml-2 text-sm text-gray-500">
                 In stock and ready to ship
               </p>
@@ -205,10 +170,10 @@ const ProductDetails = (Product: any) => {
                             </span> */}
                           </span>
                         </span>
-                        {/* <CheckCircleIcon
+                        <CheckCircleIcon
                           aria-hidden="true"
                           className="h-5 w-5 text-indigo-600 [.group:not([data-checked])_&]:invisible"
-                        /> */}
+                        />
                         <span
                           aria-hidden="true"
                           className="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-data-[focus]:border group-data-[checked]:border-indigo-600"
@@ -238,6 +203,7 @@ const ProductDetails = (Product: any) => {
                 >
                   Add to bag
                 </button>
+                {/* <StripeStuff amount={Product_prices} locale={locale} /> */}
               </div>
               <div className="mt-6 text-center">
                 <a href="#" className="group inline-flex text-base font-medium">

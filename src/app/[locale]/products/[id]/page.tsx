@@ -1,5 +1,5 @@
 import React from "react";
-import supabase from "../config/supabaseClient";
+import supabase from "../../utils/supabaseClient";
 import ProductDetails from "./components/productDetails";
 
 const ProductPage = async ({
@@ -8,7 +8,7 @@ const ProductPage = async ({
   params: { locale: string; id: number };
 }) => {
   let { data: Product, error } = await supabase
-    .from("Products")
+    .from("products")
     .select("*")
     .eq("id", `${id}`)
     .limit(1)
@@ -24,7 +24,6 @@ const ProductPage = async ({
     });
   return (
     <div>
-      {/* Product {id} is {Product.name} */}
       <ProductDetails Product={Product} />
     </div>
   );
