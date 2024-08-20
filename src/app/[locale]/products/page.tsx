@@ -1,6 +1,6 @@
 // Import the Supabase client
 import Link from "next/link";
-import supabase from "../utils/supabaseClient";
+import supabase from "../../../utils/supabaseClient";
 import Image from "next/image";
 
 // const fetchProducts = async () => {

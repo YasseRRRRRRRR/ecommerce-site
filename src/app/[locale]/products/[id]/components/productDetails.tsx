@@ -12,7 +12,7 @@ import { Description, Label, Radio, RadioGroup } from "@headlessui/react";
 import { useUnicycleSizes } from "../../../../hooks/useUnicycleSizes";
 
 const ProductDetails = (Product: any) => {
-  function classNames(...classes) {
+  function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
   }
   const reviews = { average: 4, totalCount: 1624 };
