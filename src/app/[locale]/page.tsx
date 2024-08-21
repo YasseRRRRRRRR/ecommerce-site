@@ -16,8 +16,9 @@ export default async function Home({
 
   return (
     <div className="flex flex-col justify-center h-screen items-center">
-      {user ? <></> : <>shit fuck</>}
+      {user ? <>logged in</> : <>not logged in</>}
       <br />
+      {/* button that logs user to the console */}
       <Testing Products={user} />
       <>welcome back {user?.email}</>
       <Link href={`${locale}/products`}>products</Link>
