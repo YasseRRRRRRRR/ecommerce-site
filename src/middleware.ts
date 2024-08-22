@@ -3,13 +3,6 @@ import { type NextRequest } from "next/server";
 // import { updateSession } from "@/utils/supabase/middleware";
 import { CookieOptions, createServerClient } from "@supabase/ssr";
 
-// export default createMiddleware({
-//   // A list of all locales that are supported
-//   locales: ["en", "fi", "sv"],
-//   // Used when no locale matches
-//   defaultLocale: "en",
-// });
-
 const handleI18nRouting = createMiddleware({
   // A list of all locales that are supported
   locales: ["en", "fi", "sv"],
