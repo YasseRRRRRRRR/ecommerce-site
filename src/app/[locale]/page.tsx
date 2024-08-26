@@ -24,6 +24,7 @@ export default async function Home({
     <div className="flex flex-col justify-center h-screen items-center">
       <br />
       {user ? <>logged in as {user?.given_name}</> : <>user not logged in</>}
+      <br />
       {isAdmin ? <>admin bravo</> : <>not admin</>}
       {/* button that logs user to the console */}
       <Testing thing={user} />
