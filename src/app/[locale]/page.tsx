@@ -6,6 +6,7 @@ import Testing from "./components/testing";
 
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { logout } from "./logout/actions";
 
 export default async function Home({
   params: { locale },
@@ -13,16 +14,13 @@ export default async function Home({
   params: { locale: string };
 }) {
   const supabase = createClient();
+
   let { data: orders } = await supabase.from("orders").select("*");
   const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
-    redirect(`/${locale}/login`);
-  }
+  // if (error || !data?.user) {
+  //   redirect(`/${locale}/login`);
+  // }
 
-  // const token = jwt.sign(idToken, process.env.NEXT_PUBLIC_SUPABASE_JWT_SECRET!);
-  if (error) {
-    console.log(error.message);
-  }
   return (
     <div className="flex flex-col justify-center h-screen items-center">
       {/* <br />
@@ -41,7 +39,7 @@ export default async function Home({
       {/* {isAdmin ? <>admin bravo</> : <>not admin</>} */}
       <Testing thing={orders} />
       {/* <code>{JSON.stringify(reviews, null, 2)}</code> */}
-      <div>
+      {/* <div>
         {orders?.map((order, i) =>
           order ? (
             <ul key={i} className="flex flex-col">
@@ -54,12 +52,13 @@ export default async function Home({
             <>policy is fucked</>
           )
         )}
-      </div>{" "}
+      </div> */}
       {/* <LoginLink>Sign in</LoginLink> */}
       {/* <RegisterLink>Sign up</RegisterLink> */}
       <Link href={`${locale}/login`}>Login</Link>
-      <Link href="">Logout</Link>
-      {/* <KindeProvider></KindeProvider> */}
+      <form action={logout}>
+        <button type="submit">logout</button>
+      </form>
     </div>
   );
 }
