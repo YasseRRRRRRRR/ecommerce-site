@@ -1,33 +1,26 @@
 import StripeStuff from "./components/stripeStuff";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/server";
+
 import Testing from "./components/testing";
 // import Products from "./components/Products";
-import supabase from "../../utils/supabaseClient";
+
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import {
-  RegisterLink,
-  LoginLink,
-} from "@kinde-oss/kinde-auth-nextjs/components";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import jwt from "jsonwebtoken";
+import { logout } from "./logout/actions";
 
 export default async function Home({
   params: { locale },
 }: {
   params: { locale: string };
 }) {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
-  const isAdmin = user?.email === process.env.ADMIN_EMAIL;
+  const supabase = createClient();
 
-  let { data: orders, error } = await supabase.from("orders").select("*");
-  const { getIdToken } = getKindeServerSession();
-  const idToken = await getIdToken();
-  // const token = jwt.sign(idToken, process.env.NEXT_PUBLIC_SUPABASE_JWT_SECRET!);
-  if (error) {
-    console.log("error");
-  }
+  let { data: orders } = await supabase.from("orders").select("*");
+  const { data, error } = await supabase.auth.getUser();
+  // if (error || !data?.user) {
+  //   redirect(`/${locale}/login`);
+  // }
+
   return (
     <div className="flex flex-col justify-center h-screen items-center">
       {/* <br />
@@ -37,12 +30,16 @@ export default async function Home({
         <>L90wada</>
       )}{" "}
       <br /> */}
-      {user ? <>logged in as {user?.given_name}</> : <>user not logged in</>}
+      {data.user ? (
+        <>logged in as {data.user?.email}</>
+      ) : (
+        <>user not logged in</>
+      )}
       <br />
       {/* {isAdmin ? <>admin bravo</> : <>not admin</>} */}
-      <Testing thing={idToken} />
+      <Testing thing={orders} />
       {/* <code>{JSON.stringify(reviews, null, 2)}</code> */}
-      <p>
+      {/* <div>
         {orders?.map((order, i) =>
           order ? (
             <ul key={i} className="flex flex-col">
@@ -55,11 +52,13 @@ export default async function Home({
             <>policy is fucked</>
           )
         )}
-      </p>{" "}
-      <LoginLink>Sign in</LoginLink>
+      </div> */}
+      {/* <LoginLink>Sign in</LoginLink> */}
       {/* <RegisterLink>Sign up</RegisterLink> */}
-      <Link href="/api/auth/logout">Logout</Link>
-      {/* <KindeProvider></KindeProvider> */}
+      <Link href={`${locale}/login`}>Login</Link>
+      <form action={logout}>
+        <button type="submit">logout</button>
+      </form>
     </div>
   );
 }
