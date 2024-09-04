@@ -51,7 +51,7 @@ const page = async ({ params: { locale } }: { params: { locale: string } }) => {
     if (order_items && Array.isArray(order_items)) {
       product_ids = order_items
         .map((order_item) => {
-          const productId = order_item.product_id;
+          const productId = order_item?.product_id;
           if (productId !== null && productId !== undefined) {
             return productId;
           }
@@ -167,7 +167,7 @@ const page = async ({ params: { locale } }: { params: { locale: string } }) => {
                       <EditSize
                         productId={product.id}
                         orderId={order?.id}
-                        quantity={order_items?.[productIdx].quantity}
+                        quantity={order_items?.[productIdx]?.quantity}
                       />
                     </div>
 

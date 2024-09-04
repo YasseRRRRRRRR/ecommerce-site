@@ -1,97 +1,76 @@
-import { createClient } from "@/utils/supabase/server";
+"use client";
 import { Minus, Plus } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import {
+  handleDecrement,
+  handleIncrement,
+  handleTestBullShit,
+} from "./actions";
 
 type EditProps = {
-  productId: String;
-  orderId: String;
-  quantity: any;
+  productId: string;
+  orderId: string;
+  quantity: number;
 };
-const EditSize = ({ productId, orderId, quantity }: EditProps) => {
-  const supabase = createClient();
 
-  const decrement = async (
-    quantity: any,
-    orderId: String,
-    productId: String
-  ) => {
-    try {
-      const { data, error } = await supabase
-        .from("order_items")
-        .select()
-        .eq("order_id", orderId)
-        .eq("product_id", productId);
-      // .update({ quantity: quantity - 1 })
+const EditSize = ({
+  productId,
+  orderId,
+  quantity: initialQuantity,
+}: EditProps) => {
+  const [quantity, setQuantity] = useState(initialQuantity);
 
-      if (error) throw error;
-      console.log("here is the thing:", data?.order_items?.quantity);
-    } catch (error) {
-      console.error("Error decrementing quantity:", error.message);
-      // Handle the error appropriately (e.g., show an alert to the user)
+  const decrementQuantity = async () => {
+    if (quantity > 1) {
+      const success = await handleDecrement(productId, orderId, quantity);
+      if (success) {
+        setQuantity(quantity - 1);
+      }
     }
   };
-  const increment = async (
-    quantity: any,
-    orderId: String,
-    productId: String
-  ) => {
-    "use server";
-    const { data, error } = await supabase
-      .from("order_items")
-      .update({ quantity: quantity++ })
-      .eq("order_id", orderId)
-      .eq("product_id", productId)
-      .select();
 
-    if (error) throw error;
-    console.log("Quantity incremented successfully");
+  const incrementQuantity = async () => {
+    const success = await handleIncrement(productId, orderId, quantity);
+    if (success) {
+      setQuantity(quantity + 1);
+    }
   };
-
   return (
     <div className="my-4 flex items-center justify-between md:order-3 md:justify-center">
-      <div className="flex items-center">
-        <form action={decrement(quantity, orderId, productId)}>
-          <button type="submit">
-            <Minus className="h-2.5 w-2.5" />
-          </button>
-        </form>
-        {/* <button
-          onClick={(e) => {
-            e.preventDefault();
-            decrement(quantity, orderId, productId);
-          }}
+      <form className="flex items-center">
+        <button
           type="button"
-          id="increment-button-2"
-          data-input-counter-increment="counter-input-2"
-          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 "
-        ></button> */}
+          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100"
+          onClick={decrementQuantity}
+        >
+          <Minus className="h-2.5 w-2.5" />
+        </button>
+
         <input
           type="text"
           id="counter-input-2"
           data-input-counter
-          className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-white-900 focus:outline-none focus:ring-0 "
-          placeholder=""
+          className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
           value={`${quantity}`}
-          required
+          readOnly
         />
-        <form action={increment(quantity, orderId, productId)}>
-          <button type="submit">
-            <Plus className="h-2.5 w-2.5" />
-          </button>
-        </form>
-        {/* <button
-          onClick={(e) => {
-            e.preventDefault();
-            increment(quantity, orderId, productId);
-          }}
+
+        <button
           type="button"
-          id="increment-button-2"
-          data-input-counter-increment="counter-input-2"
-          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 "
+          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100"
+          onClick={incrementQuantity}
         >
-         
+          <Plus className="h-2.5 w-2.5" />
+        </button>
+        {/* 
+        <button
+          type="button"
+          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100"
+          onClick={() => handleTestBullShit(productId, orderId)}
+        >
+          Test
         </button> */}
-      </div>
+      </form>
     </div>
   );
 };
