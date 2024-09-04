@@ -38,18 +38,10 @@ export default async function Home({
 
   return (
     <div className="flex flex-col justify-center h-screen items-center">
-      {/* <br />
-      {reviews ? (
-        <code>{JSON.stringify(reviews, null, 2)}</code>
-      ) : (
-        <>L90wada</>
-      )}{" "}
-      <br /> */}
       {user ? <>logged in as {user?.user?.email}</> : <>user not logged in</>}
       <br />
-      {/* {isAdmin ? <>admin bravo</> : <>not admin</>} */}
       <Testing thing={orders} />
-      {/* <code>{JSON.stringify(reviews, null, 2)}</code> */}
+
       <div>
         {orders?.map((order, i) =>
           order ? (
@@ -80,6 +72,7 @@ export default async function Home({
       {/* <LoginLink>Sign in</LoginLink> */}
       {/* <RegisterLink>Sign up</RegisterLink> */}
       <Link href={`${locale}/login`}>Login</Link>
+      <Link href={`${locale}/products`}>Products</Link>
       <form action={logout}>
         <button type="submit">logout</button>
       </form>

@@ -2,7 +2,9 @@
 import Link from "next/link";
 // import supabase from "../../../utils/supabaseClient";
 import Image from "next/image";
-import supabase from "@/utils/supabaseClient";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+
 // import supabase from "@/utils/supabaseClient";
 
 // const fetchProducts = async () => {
@@ -15,8 +17,14 @@ const Products = async ({
 }: {
   params: { locale: string };
 }) => {
-  let { data: Products, error } = await supabase.from("products").select("*");
+  const supabase = createClient();
 
+  let { data: Products, error: productFetchingError } = await supabase
+    .from("products")
+    .select("*");
+  if (productFetchingError) {
+    console.log(productFetchingError?.message);
+  }
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
