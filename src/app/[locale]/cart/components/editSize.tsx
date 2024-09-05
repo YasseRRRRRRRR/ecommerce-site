@@ -1,11 +1,7 @@
 "use client";
 import { Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
-import {
-  handleDecrement,
-  handleIncrement,
-  handleTestBullShit,
-} from "./actions";
+import { handleDecrement, handleIncrement } from "./actions";
 
 type EditProps = {
   productId: string;
@@ -19,22 +15,38 @@ const EditSize = ({
   quantity: initialQuantity,
 }: EditProps) => {
   const [quantity, setQuantity] = useState(initialQuantity);
+  const [loading, setLoading] = useState(false); // To prevent multiple clicks during optimistic update
 
   const decrementQuantity = async () => {
-    if (quantity > 1) {
-      const success = await handleDecrement(productId, orderId, quantity);
-      if (success) {
-        setQuantity(quantity - 1);
+    if (quantity > 1 && !loading) {
+      const prevQuantity = quantity;
+      setQuantity(prevQuantity - 1); // Optimistically update the UI
+      setLoading(true);
+
+      const success = await handleDecrement(productId, orderId, prevQuantity);
+      if (!success) {
+        setQuantity(prevQuantity); // Revert if there's an error
       }
+
+      setLoading(false);
     }
   };
 
   const incrementQuantity = async () => {
-    const success = await handleIncrement(productId, orderId, quantity);
-    if (success) {
-      setQuantity(quantity + 1);
+    if (!loading) {
+      const prevQuantity = quantity;
+      setQuantity(prevQuantity + 1); // Optimistically update the UI
+      setLoading(true);
+
+      const success = await handleIncrement(productId, orderId, prevQuantity);
+      if (!success) {
+        setQuantity(prevQuantity); // Revert if there's an error
+      }
+
+      setLoading(false);
     }
   };
+
   return (
     <div className="my-4 flex items-center justify-between md:order-3 md:justify-center">
       <form className="flex items-center">
@@ -42,6 +54,7 @@ const EditSize = ({
           type="button"
           className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100"
           onClick={decrementQuantity}
+          disabled={loading}
         >
           <Minus className="h-2.5 w-2.5" />
         </button>
@@ -59,17 +72,10 @@ const EditSize = ({
           type="button"
           className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100"
           onClick={incrementQuantity}
+          disabled={loading}
         >
           <Plus className="h-2.5 w-2.5" />
         </button>
-        {/* 
-        <button
-          type="button"
-          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100"
-          onClick={() => handleTestBullShit(productId, orderId)}
-        >
-          Test
-        </button> */}
       </form>
     </div>
   );
