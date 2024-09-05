@@ -1,10 +1,4 @@
-import { useUnicycleSizes } from "@/app/hooks/useUnicycleSizes";
 import { createClient } from "@/utils/supabase/server";
-import { Check, CircleHelp, Clock, Minus, Plus, X } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import EditSize from "./components/editSize";
-import OrderSummary from "./components/cart";
 import Testing from "../components/testing";
 import Cart from "./components/cart";
 

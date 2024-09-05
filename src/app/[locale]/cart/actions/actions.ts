@@ -58,6 +58,12 @@ export const handleDecrement = async (
   return false;
 };
 
+export const handleDelete = async (
+  productId: React.Key | null | undefined,
+  orderId: string
+) => {
+  // deletes the order_item from cart, need to make it when the add item to cart is implemented
+};
 export const handleTestBullShit = async (
   productId: React.Key | null | undefined,
   orderId: string

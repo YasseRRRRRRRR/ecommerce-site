@@ -152,17 +152,17 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                       </p>
                     </div>
 
-                    <div className="mt-4 sm:mt-0 sm:pr-9">
+                    {/* <div className="mt-4 sm:mt-0 sm:pr-9">
                       <label htmlFor="counter-input" className="sr-only">
                         Choose quantity:
-                      </label>
-                      <EditSize
-                        productId={product.id}
-                        orderId={order?.id}
-                        quantity={orderItems?.[productIdx]?.quantity}
-                        onQuantityChange={handleQuantityChange}
-                      />
-                      <div className="absolute top-0 right-0">
+                      </label> */}
+                    <EditSize
+                      productId={product.id}
+                      orderId={order?.id}
+                      quantity={orderItems?.[productIdx]?.quantity}
+                      onQuantityChange={handleQuantityChange}
+                    />
+                    {/* <div className="absolute top-0 right-0">
                         <button
                           type="button"
                           className="-m-2 p-2 inline-flex text-gray-400 hover:text-gray-500"
@@ -171,7 +171,7 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                           <XIcon className="h-5 w-5" aria-hidden="true" />
                         </button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   <p className="mt-4 flex text-sm text-gray-700 space-x-2">
