@@ -1,18 +1,23 @@
 "use client";
 import { Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
-import { handleDecrement, handleIncrement } from "./actions";
+import { handleDecrement, handleIncrement } from "../actions/actions";
 
 type EditProps = {
-  productId: string;
+  productId: React.Key | null | undefined;
   orderId: string;
   quantity: number;
+  onQuantityChange: (
+    productId: React.Key | null | undefined,
+    newQuantity: number
+  ) => void;
 };
 
 const EditSize = ({
   productId,
   orderId,
   quantity: initialQuantity,
+  onQuantityChange,
 }: EditProps) => {
   const [quantity, setQuantity] = useState(initialQuantity);
   const [loading, setLoading] = useState(false); // To prevent multiple clicks during optimistic update
@@ -20,12 +25,14 @@ const EditSize = ({
   const decrementQuantity = async () => {
     if (quantity > 1 && !loading) {
       const prevQuantity = quantity;
-      setQuantity(prevQuantity - 1); // Optimistically update the UI
+      setQuantity(prevQuantity - 1);
       setLoading(true);
 
       const success = await handleDecrement(productId, orderId, prevQuantity);
       if (!success) {
-        setQuantity(prevQuantity); // Revert if there's an error
+        setQuantity(prevQuantity);
+      } else {
+        onQuantityChange(productId, quantity - 1); // Notify parent of the change
       }
 
       setLoading(false);
@@ -35,12 +42,14 @@ const EditSize = ({
   const incrementQuantity = async () => {
     if (!loading) {
       const prevQuantity = quantity;
-      setQuantity(prevQuantity + 1); // Optimistically update the UI
+      setQuantity(prevQuantity + 1);
       setLoading(true);
 
       const success = await handleIncrement(productId, orderId, prevQuantity);
       if (!success) {
-        setQuantity(prevQuantity); // Revert if there's an error
+        setQuantity(prevQuantity);
+      } else {
+        onQuantityChange(productId, quantity + 1); // Notify parent of the change
       }
 
       setLoading(false);

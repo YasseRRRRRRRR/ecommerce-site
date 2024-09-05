@@ -3,7 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export const handleIncrement = async (
-  productId: string,
+  productId: React.Key | null | undefined,
   orderId: string,
   quantity: number
 ): Promise<boolean> => {
@@ -30,7 +30,7 @@ export const handleIncrement = async (
 };
 
 export const handleDecrement = async (
-  productId: string,
+  productId: React.Key | null | undefined,
   orderId: string,
   quantity: number
 ): Promise<boolean> => {
@@ -59,7 +59,7 @@ export const handleDecrement = async (
 };
 
 export const handleTestBullShit = async (
-  productId: string,
+  productId: React.Key | null | undefined,
   orderId: string
 ) => {
   const supabase = createClient();

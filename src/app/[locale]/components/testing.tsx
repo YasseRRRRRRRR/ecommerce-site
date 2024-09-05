@@ -3,7 +3,7 @@
 import supabase from "@/utils/supabaseClient";
 import React from "react";
 
-const Testing = (thing: any) =>
+const Testing = (thing: any, thiung2: any) =>
   // Products: any
   {
     function testing(
@@ -18,7 +18,15 @@ const Testing = (thing: any) =>
     return (
       <>
         {/* <p>Hello {data?.user?.email}</p> */}
-        <button onClick={testing}>trest</button>
+        {/* <button onClick={testing}>trest</button> */}
+        <button
+          onClick={() => {
+            console.log("Products: ", thing);
+            console.log("Order Items:", thiung2);
+          }}
+        >
+          test
+        </button>
       </>
     );
   };
