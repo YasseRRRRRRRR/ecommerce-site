@@ -24,6 +24,7 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { MenuIcon, SearchIcon, ShoppingBagIcon, XIcon } from "lucide-react";
+import Link from "next/link";
 // import {
 //   MenuIcon,
 //   SearchIcon,
@@ -34,70 +35,69 @@ import { MenuIcon, SearchIcon, ShoppingBagIcon, XIcon } from "lucide-react";
 const navigation = {
   categories: [
     {
-      id: "women",
-      name: "Women",
+      id: "unicycles",
+      name: "Unicycles",
+      comming_soon: false,
+
       featured: [
         {
-          name: "New Arrivals",
+          name: "Manual",
           href: "#",
           imageSrc:
             "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
-          imageAlt:
-            "Models sitting back to back, wearing Basic Tee in black and bone.",
+          imageAlt: "would ideally be a random Manual unicycle sold.",
         },
         {
-          name: "Basic Tees",
+          name: "Electric",
           href: "#",
           imageSrc:
             "https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg",
-          imageAlt:
-            "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
+          imageAlt: "would ideally be a random Manual unicycle sold.",
         },
       ],
       sections: [
         {
-          id: "clothing",
-          name: "Clothing",
+          id: "brand",
+          name: "Brand",
           items: [
-            { name: "Tops", href: "#" },
-            { name: "Dresses", href: "#" },
-            { name: "Pants", href: "#" },
-            { name: "Denim", href: "#" },
-            { name: "Sweaters", href: "#" },
-            { name: "T-Shirts", href: "#" },
-            { name: "Jackets", href: "#" },
-            { name: "Activewear", href: "#" },
-            { name: "Browse All", href: "#" },
+            { name: "Club", href: "#" },
+            { name: "Impact", href: "#" },
+            { name: "Nimbus", href: "#" },
+            { name: "Kris Holm", href: "#" },
+            { name: "Trainer", href: "#" },
+            { name: "Unicycle.com", href: "#" },
+            { name: "Hoppley", href: "#" },
+            { name: "Browse All", href: "#", isUnique: true },
+          ],
+        },
+
+        {
+          id: "type",
+          name: "Type",
+          items: [
+            { name: "Beginner", href: "#" },
+            { name: "Intermidiate", href: "#" },
+            { name: "Free Style", href: "#" },
+            { name: "Trials & Street", href: "#" },
+            { name: " All-Terrain", href: "#" },
           ],
         },
         {
-          id: "accessories",
-          name: "Accessories",
+          id: "support",
+          name: "Support",
           items: [
-            { name: "Watches", href: "#" },
-            { name: "Wallets", href: "#" },
-            { name: "Bags", href: "#" },
-            { name: "Sunglasses", href: "#" },
-            { name: "Hats", href: "#" },
-            { name: "Belts", href: "#" },
-          ],
-        },
-        {
-          id: "brands",
-          name: "Brands",
-          items: [
-            { name: "Full Nelson", href: "#" },
-            { name: "My Way", href: "#" },
-            { name: "Re-Arranged", href: "#" },
-            { name: "Counterfeit", href: "#" },
-            { name: "Significant Other", href: "#" },
+            { name: "F.A.Q", href: "#" },
+            { name: "Buying Guide", href: "#" },
+            { name: "Dealer Locator", href: "#" },
+            { name: "Customer Service", href: "#" },
           ],
         },
       ],
     },
     {
-      id: "men",
-      name: "Men",
+      id: "parts",
+      name: "Parts",
+      comming_soon: true,
       featured: [
         {
           name: "New Arrivals",
@@ -170,11 +170,12 @@ const NavBar = ({ lang }: { lang: string }) => {
 
   return (
     <div className=" bg-white">
+      {/* change the menu icons thingys */}
       {/* Mobile menu */}
       <Transition show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 flex z-40 lg:hidden"
+          className="fixed inset-0 flex z-[101] lg:hidden"
           onClose={setOpen}
         >
           <TransitionChild
@@ -349,7 +350,7 @@ const NavBar = ({ lang }: { lang: string }) => {
       </Transition>
 
       <header className="fixed z-[100] top-0 inset-x-0  bg-white">
-        <p className="bg-indigo-600 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
+        <p className="hidden sm:flex bg-indigo-600 h-10  items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
           Get free delivery on orders over $500 to the lower 48 United States
         </p>
 
@@ -399,7 +400,6 @@ const NavBar = ({ lang }: { lang: string }) => {
                               {category.name}
                             </Popover.Button>
                           </div>
-
                           <Transition
                             as={Fragment}
                             enter="transition ease-out duration-200"
@@ -411,6 +411,7 @@ const NavBar = ({ lang }: { lang: string }) => {
                           >
                             <Popover.Panel className="absolute top-full inset-x-0 text-sm text-gray-500">
                               {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
+
                               <div
                                 className="absolute inset-0 top-1/2 bg-white shadow"
                                 aria-hidden="true"
@@ -418,71 +419,85 @@ const NavBar = ({ lang }: { lang: string }) => {
 
                               <div className="relative bg-white">
                                 <div className="max-w-7xl mx-auto px-8">
-                                  <div className="grid grid-cols-2 gap-y-10 gap-x-8 py-16">
-                                    <div className="col-start-2 grid grid-cols-2 gap-x-8">
-                                      {category.featured.map((item) => (
-                                        <div
-                                          key={item.name}
-                                          className="group relative text-base sm:text-sm"
-                                        >
-                                          <div className="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden group-hover:opacity-75">
-                                            <img
-                                              src={item.imageSrc}
-                                              alt={item.imageAlt}
-                                              className="object-center object-cover"
-                                            />
-                                          </div>
-                                          <a
-                                            href={item.href}
-                                            className="mt-6 block font-medium text-gray-900"
+                                  {category.comming_soon ? (
+                                    <div className="grid grid-cols-2 gap-y-10 gap-x-8 py-16 h-80">
+                                      {/* make it better */}
+                                      comming_soon
+                                    </div>
+                                  ) : (
+                                    <div className="grid grid-cols-2 gap-y-10 gap-x-8 py-16">
+                                      <div className="col-start-2 grid grid-cols-2 gap-x-8">
+                                        {category.featured.map((item) => (
+                                          <div
+                                            key={item.name}
+                                            className="group relative text-base sm:text-sm"
                                           >
-                                            <span
-                                              className="absolute z-10 inset-0"
+                                            <div className="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden group-hover:opacity-75">
+                                              <img
+                                                src={item.imageSrc}
+                                                alt={item.imageAlt}
+                                                className="object-center object-cover"
+                                              />
+                                            </div>
+                                            <a
+                                              href={item.href}
+                                              className="mt-6 block font-medium text-gray-900"
+                                            >
+                                              <span
+                                                className="absolute z-10 inset-0"
+                                                aria-hidden="true"
+                                              />
+                                              {item.name}
+                                            </a>
+                                            <p
                                               aria-hidden="true"
-                                            />
-                                            {item.name}
-                                          </a>
-                                          <p
-                                            aria-hidden="true"
-                                            className="mt-1"
-                                          >
-                                            Shop now
-                                          </p>
-                                        </div>
-                                      ))}
-                                    </div>
-                                    <div className="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
-                                      {category.sections.map((section) => (
-                                        <div key={section.name}>
-                                          <p
-                                            id={`${section.name}-heading`}
-                                            className="font-medium text-gray-900"
-                                          >
-                                            {section.name}
-                                          </p>
-                                          <ul
-                                            role="list"
-                                            aria-labelledby={`${section.name}-heading`}
-                                            className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                          >
-                                            {section.items.map((item) => (
-                                              <li
-                                                key={item.name}
-                                                className="flex"
-                                              >
-                                                <a
-                                                  href={item.href}
-                                                  className="hover:text-gray-800"
+                                              className="mt-1"
+                                            >
+                                              Shop now
+                                            </p>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      <div className="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
+                                        {category.sections.map((section) => (
+                                          <div key={section.name}>
+                                            <p
+                                              id={`${section.name}-heading`}
+                                              className="font-medium text-gray-900"
+                                            >
+                                              {section.name}
+                                            </p>
+                                            <ul
+                                              role="list"
+                                              aria-labelledby={`${section.name}-heading`}
+                                              className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+                                            >
+                                              {section.items.map((item) => (
+                                                <li
+                                                  key={item.name}
+                                                  className="flex"
                                                 >
-                                                  {item.name}
-                                                </a>
-                                              </li>
-                                            ))}
-                                          </ul>
-                                        </div>
-                                      ))}
+                                                  <a
+                                                    href={item.href}
+                                                    className="hover:text-gray-800"
+                                                  >
+                                                    {item.isUnique ? (
+                                                      // make something better?
+                                                      <span className="underline">
+                                                        {item.name}
+                                                      </span>
+                                                    ) : (
+                                                      <>{item.name}</>
+                                                    )}
+                                                  </a>
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          </div>
+                                        ))}
+                                      </div>
                                     </div>
-                                  </div>
+                                  )}
                                 </div>
                               </div>
                             </Popover.Panel>
