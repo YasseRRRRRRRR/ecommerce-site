@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import NavBar from "../components/navBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,12 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <NextIntlClientProvider messages={messages}>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <NavBar lang={locale} />
+          <main className="flex flex-col min-h-[calc(100vh-3.5rem-1px)] ">
+            <div className="flex-1 flex flex-col h-full">{children}</div>
+          </main>
+        </body>
       </NextIntlClientProvider>
     </html>
   );
