@@ -1,3 +1,3 @@
 export default function ErrorPage() {
-  return <p>Sorry, something went wrong</p>;
+  return <p className="py-20">Sorry, something went wrong</p>;
 }

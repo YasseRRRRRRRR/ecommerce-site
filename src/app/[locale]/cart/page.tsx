@@ -120,18 +120,10 @@ const page = async ({ params: { locale } }: { params: { locale: string } }) => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white py-16">
       <div className="max-w-2xl mx-auto pt-16 pb-24 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          Shopping Cart for{" "}
-          {Products ? <>Kaynin {Products.length}</> : <>nothing</>}
-          <Testing thing={Products} thing2={order_items} />
-          {/* {order?.total_amount} */}
-          {/* {Products?.map((order_item, i) => (
-            <p key={i} className="mx-2">
-              {order_item.price}
-            </p>
-          ))} */}
+          Shopping Cart for {user.user?.email}
         </h1>
         <Cart
           initialProducts={Products}
