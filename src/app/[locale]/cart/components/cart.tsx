@@ -267,8 +267,8 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                 {" "}
                 or{" "}
               </span>
-              <a
-                href="#"
+              <Link
+                href={`./products`}
                 title=""
                 className="inline-flex items-center gap-2 text-sm font-medium text-red-700 underline hover:no-underline dark:text-red-500"
               >
@@ -288,7 +288,7 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                     d="M19 12H5m14 0-4 4m4-4-4-4"
                   />
                 </svg>
-              </a>
+              </Link>
             </div>{" "}
           </div>
         </div>

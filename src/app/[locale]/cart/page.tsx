@@ -93,37 +93,34 @@ const page = async ({ params: { locale } }: { params: { locale: string } }) => {
 
     return { data, error };
   };
-  const getTotalAmount = () => {
-    let totalAmount = 0;
 
-    if (order_items && Products) {
-      order_items.forEach((order_item) => {
-        // Find the product that matches the product_id of the order item
-        const product = Products.find(
-          (product) => product.id === order_item?.product_id
-        );
+  // const getTotalAmount = () => {
+  //   let totalAmount = 0;
 
-        if (product) {
-          // Multiply product price by order_item quantity and add to total
-          totalAmount += product.price * order_item?.quantity;
-        } else {
-          console.warn(`Product not found for order item: ${order_item}`);
-        }
-      });
-    }
+  //   if (order_items && Products) {
+  //     order_items.forEach((order_item) => {
+  //       // Find the product that matches the product_id of the order item
+  //       const product = Products.find(
+  //         (product) => product.id === order_item?.product_id
+  //       );
 
-    return totalAmount;
-  };
+  //       if (product) {
+  //         // Multiply product price by order_item quantity and add to total
+  //         totalAmount += product.price * order_item?.quantity;
+  //       } else {
+  //         console.warn(`Product not found for order item: ${order_item}`);
+  //       }
+  //     });
+  //   }
 
-  const handleQuantityChange = (productId: string, newQuantity: number) => {
-    "use client";
-  };
+  //   return totalAmount;
+  // };
 
   return (
     <div className="bg-white py-16">
       <div className="max-w-2xl mx-auto pt-16 pb-24 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          Shopping Cart for {user.user?.email}
+          Shopping Cart for {user ? user.user?.email : "Anon user"}
         </h1>
         <Cart
           initialProducts={Products}

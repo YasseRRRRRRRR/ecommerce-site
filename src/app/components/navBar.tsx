@@ -1,5 +1,3 @@
-"use client";
-
 import { Fragment, useState } from "react";
 import {
   Dialog,
@@ -10,6 +8,9 @@ import {
 } from "@headlessui/react";
 import { MenuIcon, SearchIcon, ShoppingBagIcon, XIcon } from "lucide-react";
 import Link from "next/link";
+import CartComponent from "./cartComponent";
+import { createClient } from "@/utils/supabase/server";
+import Testing from "../[locale]/components/testing";
 
 const navigation = {
   categories: [
@@ -143,15 +144,26 @@ const navigation = {
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+// CHANGE BACK TO SYNCRONOUSE
+const NavBar = async ({ lang }: { lang: string }) => {
+  // const [open, setOpen] = useState(false);
 
-const NavBar = ({ lang }: { lang: string }) => {
-  const [open, setOpen] = useState(false);
-
+  const supabase = createClient();
+  const { data: user, error: userFetchError } = await supabase.auth.getUser();
+  let { data: order, error: orderFetchError } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("user_id", user.user?.id)
+    .single();
+  let { data: order_items, error: orderItemsFetchingError } = await supabase
+    .from("order_items")
+    .select("*")
+    .eq("order_id", order?.id);
   return (
     <div className=" bg-white py-4">
       {/* change the menu icons thingys */}
       {/* Mobile menu */}
-      <Transition show={open} as={Fragment}>
+      {/* <Transition show={open} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 flex z-[101] lg:hidden"
@@ -166,7 +178,6 @@ const NavBar = ({ lang }: { lang: string }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            {/* Dialog.Overlay */}
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </TransitionChild>
 
@@ -191,7 +202,6 @@ const NavBar = ({ lang }: { lang: string }) => {
                 </button>
               </div>
 
-              {/* Links */}
               <Tab.Group as="div" className="mt-2">
                 <div className="border-b border-gray-200">
                   <Tab.List className="-mb-px flex px-4 space-x-8">
@@ -326,7 +336,7 @@ const NavBar = ({ lang }: { lang: string }) => {
             </div>
           </TransitionChild>
         </Dialog>
-      </Transition>
+      </Transition> */}
 
       <header className="fixed z-[100] top-0 inset-x-0  bg-white">
         <p className="hidden sm:flex bg-indigo-600 h-10  items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
@@ -339,14 +349,15 @@ const NavBar = ({ lang }: { lang: string }) => {
         >
           <div className="border-b border-gray-200">
             <div className="h-16 flex items-center">
-              <button
+              {/* <button
                 type="button"
                 className="bg-white p-2 rounded-md text-gray-400 lg:hidden"
                 onClick={() => setOpen(true)}
               >
                 <span className="sr-only">Open menu</span>
                 <MenuIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+              </button> */}
+              <Testing thing={order_items} />
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
@@ -361,7 +372,7 @@ const NavBar = ({ lang }: { lang: string }) => {
               </div>
 
               {/* Flyout menus */}
-              <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
+              {/* <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="h-full flex space-x-8">
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
@@ -389,8 +400,6 @@ const NavBar = ({ lang }: { lang: string }) => {
                             leaveTo="opacity-0"
                           >
                             <Popover.Panel className="absolute top-full inset-x-0 text-sm text-gray-500">
-                              {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-
                               <div
                                 className="absolute inset-0 top-1/2 bg-white shadow"
                                 aria-hidden="true"
@@ -400,7 +409,6 @@ const NavBar = ({ lang }: { lang: string }) => {
                                 <div className="max-w-7xl mx-auto px-8">
                                   {category.comming_soon ? (
                                     <div className="grid grid-cols-2 gap-y-10 gap-x-8 py-16 h-80">
-                                      {/* make it better */}
                                       comming_soon
                                     </div>
                                   ) : (
@@ -461,7 +469,6 @@ const NavBar = ({ lang }: { lang: string }) => {
                                                     className="hover:text-gray-800"
                                                   >
                                                     {item.isUnique ? (
-                                                      // make something better?
                                                       <span className="underline">
                                                         {item.name}
                                                       </span>
@@ -496,7 +503,7 @@ const NavBar = ({ lang }: { lang: string }) => {
                     </a>
                   ))}
                 </div>
-              </Popover.Group>
+              </Popover.Group> */}
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -514,22 +521,15 @@ const NavBar = ({ lang }: { lang: string }) => {
                     Create account
                   </Link>
                 </div>
-
                 <div className="hidden lg:ml-8 lg:flex">
                   <a
                     href="#"
                     className="text-gray-700 hover:text-gray-800 flex items-center"
                   >
-                    <img
-                      src="https://tailwindui.com/img/flags/flag-canada.svg"
-                      alt=""
-                      className="w-5 h-auto block flex-shrink-0"
-                    />
-                    <span className="ml-3 block text-sm font-medium">CAD</span>
-                    <span className="sr-only">, change currency</span>
+                    <span className="ml-3 block text-sm font-medium">EN</span>
+                    <span className="sr-only">change locale</span>
                   </a>
                 </div>
-
                 {/* Search */}
                 <div className="flex lg:ml-6">
                   <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
@@ -537,8 +537,8 @@ const NavBar = ({ lang }: { lang: string }) => {
                     <SearchIcon className="w-6 h-6" aria-hidden="true" />
                   </a>
                 </div>
-
                 {/* Cart */}
+
                 <div className="ml-4 flow-root lg:ml-6">
                   <a href="#" className="group -m-2 p-2 flex items-center">
                     <ShoppingBagIcon
@@ -546,7 +546,7 @@ const NavBar = ({ lang }: { lang: string }) => {
                       aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
+                      {order_items?.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </a>
