@@ -169,7 +169,7 @@ const NavBar = ({ lang }: { lang: string }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className=" bg-white">
+    <div className=" bg-white py-4">
       {/* change the menu icons thingys */}
       {/* Mobile menu */}
       <Transition show={open} as={Fragment}>
