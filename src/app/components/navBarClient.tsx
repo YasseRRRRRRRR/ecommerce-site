@@ -6,13 +6,18 @@ import {
   Tab,
   Transition,
   TransitionChild,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+  PopoverGroup,
+  PopoverButton,
+  PopoverPanel,
 } from "@headlessui/react";
 import { MenuIcon, SearchIcon, ShoppingBagIcon, XIcon } from "lucide-react";
 import Link from "next/link";
-import CartComponent from "./cartComponent";
 import { createClient } from "@/utils/supabase/server";
 import Testing from "../[locale]/components/testing";
-import MobileMenu from "./mobileMenu";
 
 const navigation = {
   categories: [
@@ -150,18 +155,6 @@ function classNames(...classes) {
 const NavBarClient = ({ children }: any) => {
   const [open, setOpen] = useState(false);
 
-  // const supabase = createClient();
-  // const { data: user, error: userFetchError } = await supabase.auth.getUser();
-  // let { data: order, error: orderFetchError } = await supabase
-  //   .from("orders")
-  //   .select("*")
-  //   .eq("user_id", user.user?.id)
-  //   .single();
-  // let { data: order_items, error: orderItemsFetchingError } = await supabase
-  //   .from("order_items")
-  //   .select("*")
-  //   .eq("order_id", order?.id);
-
   return (
     <div className=" bg-white py-4">
       {/* change the menu icons thingys */}
@@ -205,9 +198,9 @@ const NavBarClient = ({ children }: any) => {
                 </button>
               </div>
 
-              <Tab.Group as="div" className="mt-2">
+              <TabGroup as="div" className="mt-2">
                 <div className="border-b border-gray-200">
-                  <Tab.List className="-mb-px flex px-4 space-x-8">
+                  <TabList className="-mb-px flex px-4 space-x-8">
                     {navigation.categories.map((category) => (
                       <Tab
                         key={category.name}
@@ -223,11 +216,11 @@ const NavBarClient = ({ children }: any) => {
                         {category.name}
                       </Tab>
                     ))}
-                  </Tab.List>
+                  </TabList>
                 </div>
-                <Tab.Panels as={Fragment}>
+                <TabPanels as={Fragment}>
                   {navigation.categories.map((category) => (
-                    <Tab.Panel
+                    <TabPanel
                       key={category.name}
                       className="pt-10 pb-8 px-4 space-y-10"
                     >
@@ -286,10 +279,10 @@ const NavBarClient = ({ children }: any) => {
                           </ul>
                         </div>
                       ))}
-                    </Tab.Panel>
+                    </TabPanel>
                   ))}
-                </Tab.Panels>
-              </Tab.Group>
+                </TabPanels>
+              </TabGroup>
 
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
                 {navigation.pages.map((page) => (
@@ -340,7 +333,6 @@ const NavBarClient = ({ children }: any) => {
           </TransitionChild>
         </Dialog>
       </Transition>
-      <MobileMenu navigation={navigation} />
 
       <header className="fixed z-[100] top-0 inset-x-0  bg-white">
         <p className="hidden sm:flex bg-indigo-600 h-10  items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
@@ -376,14 +368,14 @@ const NavBarClient = ({ children }: any) => {
               </div>
 
               {/* Flyout menus */}
-              <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
+              <PopoverGroup className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="h-full flex space-x-8">
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
                       {({ open }) => (
                         <>
                           <div className="relative flex">
-                            <Popover.Button
+                            <PopoverButton
                               className={classNames(
                                 open
                                   ? "border-indigo-600 text-indigo-600"
@@ -392,7 +384,7 @@ const NavBarClient = ({ children }: any) => {
                               )}
                             >
                               {category.name}
-                            </Popover.Button>
+                            </PopoverButton>
                           </div>
                           <Transition
                             as={Fragment}
@@ -403,7 +395,7 @@ const NavBarClient = ({ children }: any) => {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                           >
-                            <Popover.Panel className="absolute top-full inset-x-0 text-sm text-gray-500">
+                            <PopoverPanel className="absolute top-full inset-x-0 text-sm text-gray-500">
                               <div
                                 className="absolute inset-0 top-1/2 bg-white shadow"
                                 aria-hidden="true"
@@ -490,7 +482,7 @@ const NavBarClient = ({ children }: any) => {
                                   )}
                                 </div>
                               </div>
-                            </Popover.Panel>
+                            </PopoverPanel>
                           </Transition>
                         </>
                       )}
@@ -507,7 +499,7 @@ const NavBarClient = ({ children }: any) => {
                     </a>
                   ))}
                 </div>
-              </Popover.Group>
+              </PopoverGroup>
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -526,27 +518,6 @@ const NavBarClient = ({ children }: any) => {
                   </Link>
                 </div>
                 {children}
-                {/* Search */}
-                {/* <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <SearchIcon className="w-6 h-6" aria-hidden="true" />
-                  </a>
-                </div> */}
-
-                {/* Cart */}
-                {/* <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 p-2 flex items-center">
-                    <ShoppingBagIcon
-                      className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      {order_items?.length}
-                    </span>
-                    <span className="sr-only">items in cart, view bag</span>
-                  </a>
-                </div> */}
               </div>
             </div>
           </div>
