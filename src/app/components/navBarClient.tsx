@@ -16,8 +16,7 @@ import {
 } from "@headlessui/react";
 import { MenuIcon, SearchIcon, ShoppingBagIcon, XIcon } from "lucide-react";
 import Link from "next/link";
-import { createClient } from "@/utils/supabase/server";
-import Testing from "../[locale]/components/testing";
+import Image from "next/image";
 
 const navigation = {
   categories: [
@@ -316,7 +315,7 @@ const NavBarClient = ({ children }: any) => {
                 </div>
               </div>
 
-              <div className="border-t border-gray-200 py-6 px-4">
+              {/* <div className="border-t border-gray-200 py-6 px-4">
                 <a href="#" className="-m-2 p-2 flex items-center">
                   <img
                     src="https://tailwindui.com/img/flags/flag-canada.svg"
@@ -328,17 +327,16 @@ const NavBarClient = ({ children }: any) => {
                   </span>
                   <span className="sr-only">, change currency</span>
                 </a>
-              </div>
+              </div> */}
             </div>
           </TransitionChild>
         </Dialog>
       </Transition>
 
       <header className="fixed z-[100] top-0 inset-x-0  bg-white">
-        <p className="hidden sm:flex bg-indigo-600 h-10  items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
-          Get free delivery on orders over $500 to the lower 48 United States
+        <p className="hidden sm:flex bg-red-700 h-10  items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
+          Get free delivery on orders over €500 to the the Schengen Area
         </p>
-
         <nav
           aria-label="Top"
           className=" max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8"
@@ -359,11 +357,7 @@ const NavBarClient = ({ children }: any) => {
               <div className="ml-4 flex lg:ml-0">
                 <a href="#">
                   <span className="sr-only">One Wheel Odyssy</span>
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-                    alt=""
-                  />
+                  <Image width={50} height={20} src="/icon.ico" alt="" />
                 </a>
               </div>
 

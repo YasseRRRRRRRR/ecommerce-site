@@ -2,8 +2,9 @@ import React from "react";
 import NavBarClient from "./navBarClient";
 import { createClient } from "@/utils/supabase/server";
 import { SearchIcon, ShoppingBagIcon } from "lucide-react";
+import Link from "next/link";
 
-const MainNavBar = async () => {
+const MainNavBar = async ({ lang }: { lang: string }) => {
   const supabase = createClient();
   const { data: user, error: userFetchError } = await supabase.auth.getUser();
   let { data: order, error: orderFetchError } = await supabase
@@ -38,7 +39,10 @@ const MainNavBar = async () => {
 
         {/* Cart */}
         <div className="ml-4 flow-root lg:ml-6">
-          <a href="#" className="group -m-2 p-2 flex items-center">
+          <Link
+            href={`../${lang}/cart`}
+            className="group -m-2 p-2 flex items-center"
+          >
             <ShoppingBagIcon
               className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
               aria-hidden="true"
@@ -47,7 +51,7 @@ const MainNavBar = async () => {
               {order_items?.length}
             </span>
             <span className="sr-only">items in cart, view bag</span>
-          </a>
+          </Link>
         </div>
       </NavBarClient>
     </div>
