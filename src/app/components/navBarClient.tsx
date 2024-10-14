@@ -1,3 +1,4 @@
+"use client";
 import { Fragment, useState } from "react";
 import {
   Dialog,
@@ -11,6 +12,7 @@ import Link from "next/link";
 import CartComponent from "./cartComponent";
 import { createClient } from "@/utils/supabase/server";
 import Testing from "../[locale]/components/testing";
+import MobileMenu from "./mobileMenu";
 
 const navigation = {
   categories: [
@@ -145,25 +147,26 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 // CHANGE BACK TO SYNCRONOUSE
-const NavBar = async ({ lang }: { lang: string }) => {
-  // const [open, setOpen] = useState(false);
+const NavBarClient = ({ children }: any) => {
+  const [open, setOpen] = useState(false);
 
-  const supabase = createClient();
-  const { data: user, error: userFetchError } = await supabase.auth.getUser();
-  let { data: order, error: orderFetchError } = await supabase
-    .from("orders")
-    .select("*")
-    .eq("user_id", user.user?.id)
-    .single();
-  let { data: order_items, error: orderItemsFetchingError } = await supabase
-    .from("order_items")
-    .select("*")
-    .eq("order_id", order?.id);
+  // const supabase = createClient();
+  // const { data: user, error: userFetchError } = await supabase.auth.getUser();
+  // let { data: order, error: orderFetchError } = await supabase
+  //   .from("orders")
+  //   .select("*")
+  //   .eq("user_id", user.user?.id)
+  //   .single();
+  // let { data: order_items, error: orderItemsFetchingError } = await supabase
+  //   .from("order_items")
+  //   .select("*")
+  //   .eq("order_id", order?.id);
+
   return (
     <div className=" bg-white py-4">
       {/* change the menu icons thingys */}
       {/* Mobile menu */}
-      {/* <Transition show={open} as={Fragment}>
+      <Transition show={open} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 flex z-[101] lg:hidden"
@@ -336,7 +339,8 @@ const NavBar = async ({ lang }: { lang: string }) => {
             </div>
           </TransitionChild>
         </Dialog>
-      </Transition> */}
+      </Transition>
+      <MobileMenu navigation={navigation} />
 
       <header className="fixed z-[100] top-0 inset-x-0  bg-white">
         <p className="hidden sm:flex bg-indigo-600 h-10  items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
@@ -349,20 +353,20 @@ const NavBar = async ({ lang }: { lang: string }) => {
         >
           <div className="border-b border-gray-200">
             <div className="h-16 flex items-center">
-              {/* <button
+              <button
                 type="button"
                 className="bg-white p-2 rounded-md text-gray-400 lg:hidden"
                 onClick={() => setOpen(true)}
               >
                 <span className="sr-only">Open menu</span>
                 <MenuIcon className="h-6 w-6" aria-hidden="true" />
-              </button> */}
-              <Testing thing={order_items} />
+              </button>
+              {/* <Testing thing={order_items} /> */}
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
                 <a href="#">
-                  <span className="sr-only">Workflow</span>
+                  <span className="sr-only">One Wheel Odyssy</span>
                   <img
                     className="h-8 w-auto"
                     src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
@@ -372,7 +376,7 @@ const NavBar = async ({ lang }: { lang: string }) => {
               </div>
 
               {/* Flyout menus */}
-              {/* <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
+              <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="h-full flex space-x-8">
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
@@ -503,7 +507,7 @@ const NavBar = async ({ lang }: { lang: string }) => {
                     </a>
                   ))}
                 </div>
-              </Popover.Group> */}
+              </Popover.Group>
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -521,25 +525,17 @@ const NavBar = async ({ lang }: { lang: string }) => {
                     Create account
                   </Link>
                 </div>
-                <div className="hidden lg:ml-8 lg:flex">
-                  <a
-                    href="#"
-                    className="text-gray-700 hover:text-gray-800 flex items-center"
-                  >
-                    <span className="ml-3 block text-sm font-medium">EN</span>
-                    <span className="sr-only">change locale</span>
-                  </a>
-                </div>
+                {children}
                 {/* Search */}
-                <div className="flex lg:ml-6">
+                {/* <div className="flex lg:ml-6">
                   <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
                     <span className="sr-only">Search</span>
                     <SearchIcon className="w-6 h-6" aria-hidden="true" />
                   </a>
-                </div>
-                {/* Cart */}
+                </div> */}
 
-                <div className="ml-4 flow-root lg:ml-6">
+                {/* Cart */}
+                {/* <div className="ml-4 flow-root lg:ml-6">
                   <a href="#" className="group -m-2 p-2 flex items-center">
                     <ShoppingBagIcon
                       className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
@@ -550,7 +546,7 @@ const NavBar = async ({ lang }: { lang: string }) => {
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -559,4 +555,4 @@ const NavBar = async ({ lang }: { lang: string }) => {
     </div>
   );
 };
-export default NavBar;
+export default NavBarClient;
