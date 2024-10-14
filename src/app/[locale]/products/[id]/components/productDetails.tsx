@@ -10,21 +10,63 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Description, Label, Radio, RadioGroup } from "@headlessui/react";
 import { useUnicycleSizes } from "../../../../hooks/useUnicycleSizes";
-
-const ProductDetails = (Product: any) => {
+interface ProductDetailsProps {
+  Product: {
+    id: number;
+    name: string;
+    price: number;
+    desc: string;
+    image: string;
+    image_alt: string;
+    sizes: string;
+  };
+  Submit: () => Promise<void>;
+}
+const ProductDetails = ({ Product, Submit }: ProductDetailsProps) => {
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
   }
   const reviews = { average: 4, totalCount: 1624 };
   const breadcrumbs = [
     { id: 1, name: "Home", href: "/" },
-    { id: 2, name: `${Product.Product.name}`, href: "" },
+    { id: 2, name: `${Product.name}`, href: "" },
   ];
-  const selectedSizes = useUnicycleSizes(Product.Product.sizes);
+  const selectedSizes = useUnicycleSizes(Product.sizes);
   // testing the hook
   // console.log(selectedSizes);
-
   const [selectedSize, setSelectedSize] = useState(selectedSizes[0]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/add-to-bag", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: "your-user-id-here", // You can fetch user ID from session or supabase client
+          product_id: Product.id,
+          locale: "en", // You can pass any other details like locale here
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add to the bag");
+      }
+
+      const result = await response.json();
+      console.log(result.message);
+      // Optionally, you can show a success message or notification
+    } catch (error) {
+      console.error("An error occurred:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
@@ -60,7 +102,7 @@ const ProductDetails = (Product: any) => {
 
           <div className="mt-4">
             <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              {Product.Product.name}
+              {Product.name}
             </h1>
           </div>
 
@@ -71,7 +113,7 @@ const ProductDetails = (Product: any) => {
 
             <div className="flex items-center">
               <p className="text-lg text-gray-900 sm:text-xl">
-                €{Product.Product.price}
+                €{Product.price}
               </p>
 
               <div className="ml-4 pl-4 border-l border-gray-300">
@@ -102,7 +144,7 @@ const ProductDetails = (Product: any) => {
             </div>
 
             <div className="mt-4 space-y-6">
-              <p className="text-base text-gray-500">{Product.Product.desc}</p>
+              <p className="text-base text-gray-500">{Product.desc}</p>
             </div>
 
             <div className="mt-6 flex items-center">
@@ -123,8 +165,8 @@ const ProductDetails = (Product: any) => {
             <Image
               width={500}
               height={580}
-              src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product_images/${Product.Product.image}`}
-              alt={Product.Product.image_alt}
+              src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product_images/${Product.image}`}
+              alt={Product.image_alt}
               className="w-full h-full object-center object-cover"
             />
           </div>
@@ -137,7 +179,7 @@ const ProductDetails = (Product: any) => {
               Product options
             </h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="sm:flex sm:justify-between">
                 {/* Size selector */}
                 <fieldset>
@@ -155,7 +197,7 @@ const ProductDetails = (Product: any) => {
                         value={size}
                         aria-label={size.name}
                         // aria-description={`${mailingList.description} to ${mailingList.users}`}
-                        className="group relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus:outline-none data-[focus]:border-indigo-600 data-[focus]:ring-2 data-[focus]:ring-indigo-600"
+                        className="group relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus:outline-none data-[focus]:border-red-600 data-[focus]:ring-2 data-[focus]:ring-red-600"
                       >
                         <span className="flex flex-1">
                           <span className="flex flex-col">
@@ -172,11 +214,11 @@ const ProductDetails = (Product: any) => {
                         </span>
                         <CheckCircleIcon
                           aria-hidden="true"
-                          className="h-5 w-5 text-indigo-600 [.group:not([data-checked])_&]:invisible"
+                          className="h-5 w-5 text-red-600 [.group:not([data-checked])_&]:invisible"
                         />
                         <span
                           aria-hidden="true"
-                          className="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-data-[focus]:border group-data-[checked]:border-indigo-600"
+                          className="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-data-[focus]:border group-data-[checked]:border-red-600"
                         />
                       </Radio>
                     ))}
@@ -199,11 +241,11 @@ const ProductDetails = (Product: any) => {
               <div className="mt-10">
                 <button
                   type="submit"
-                  className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                  disabled={loading}
+                  className="mt-8 flex w-full items-center justify-center bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
                 >
-                  Add to bag
+                  {loading ? "Adding..." : "Add to Bag"}
                 </button>
-                {/* <StripeStuff amount={Product_prices} locale={locale} /> */}
               </div>
               <div className="mt-6 text-center">
                 <a href="#" className="group inline-flex text-base font-medium">

@@ -3,6 +3,7 @@ import NavBarClient from "./navBarClient";
 import { createClient } from "@/utils/supabase/server";
 import { SearchIcon, ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
+import { logout } from "../[locale]/logout/actions";
 
 const MainNavBar = async ({ lang }: { lang: string }) => {
   const supabase = createClient();
@@ -18,7 +19,41 @@ const MainNavBar = async ({ lang }: { lang: string }) => {
     .eq("order_id", order?.id);
   return (
     <div>
-      <NavBarClient>
+      <NavBarClient lang={lang}>
+        <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+          {!user ? (
+            // <Link
+            //   href={`../${lang}/login`}
+            //   className="text-sm font-medium text-gray-700 hover:text-gray-800"
+            // >
+            //   Log Out
+            // </Link>
+            <form action={logout}>
+              <button
+                className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                type="submit"
+              >
+                Log Out
+              </button>
+            </form>
+          ) : (
+            <>
+              <Link
+                href={`../${lang}/login`}
+                className="text-sm font-medium text-gray-700 hover:text-gray-800"
+              >
+                Sign in
+              </Link>
+              <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+              <Link
+                href={`../${lang}/signup`}
+                className="text-sm font-medium text-gray-700 hover:text-gray-800"
+              >
+                Create account
+              </Link>
+            </>
+          )}
+        </div>
         {/* Locale */}
         <div className="hidden lg:ml-8 lg:flex">
           <a

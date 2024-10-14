@@ -151,8 +151,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 // CHANGE BACK TO SYNCRONOUSE
-const NavBarClient = ({ children }: any) => {
+const NavBarClient = ({ children, lang }: { children: any; lang: string }) => {
   const [open, setOpen] = useState(false);
+  const [advert, setAdvert] = useState(true);
 
   return (
     <div className=" bg-white py-4">
@@ -206,7 +207,7 @@ const NavBarClient = ({ children }: any) => {
                         className={({ selected }) =>
                           classNames(
                             selected
-                              ? "text-indigo-600 border-indigo-600"
+                              ? "text-red-600 border-red-600"
                               : "text-gray-900 border-transparent",
                             "flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium"
                           )
@@ -334,9 +335,20 @@ const NavBarClient = ({ children }: any) => {
       </Transition>
 
       <header className="fixed z-[100] top-0 inset-x-0  bg-white">
-        <p className="hidden sm:flex bg-red-700 h-10  items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
-          Get free delivery on orders over €500 to the the Schengen Area
-        </p>
+        {advert && (
+          <>
+            <p className="hidden relative sm:flex bg-red-600 h-10  items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
+              Get free delivery on orders over €500 to the the Schengen Area
+              <button
+                className="absolute left-[98%]"
+                onClick={() => setAdvert(false)}
+              >
+                <span className="sr-only">Close menu</span>
+                <XIcon className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </p>
+          </>
+        )}
         <nav
           aria-label="Top"
           className=" max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8"
@@ -355,10 +367,10 @@ const NavBarClient = ({ children }: any) => {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <a href="#">
+                <Link href="/">
                   <span className="sr-only">One Wheel Odyssy</span>
                   <Image width={50} height={20} src="/icon.ico" alt="" />
-                </a>
+                </Link>
               </div>
 
               {/* Flyout menus */}
@@ -372,7 +384,7 @@ const NavBarClient = ({ children }: any) => {
                             <PopoverButton
                               className={classNames(
                                 open
-                                  ? "border-indigo-600 text-indigo-600"
+                                  ? "border-red-600 text-red-600"
                                   : "border-transparent text-gray-700 hover:text-gray-800",
                                 "relative z-10 flex items-center transition-colors ease-out duration-200 text-sm font-medium border-b-2 -mb-px pt-px"
                               )}
@@ -495,24 +507,7 @@ const NavBarClient = ({ children }: any) => {
                 </div>
               </PopoverGroup>
 
-              <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <Link
-                    href={`./login`}
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    Sign in
-                  </Link>
-                  <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  <Link
-                    href={`./signup`}
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    Create account
-                  </Link>
-                </div>
-                {children}
-              </div>
+              <div className="ml-auto flex items-center">{children}</div>
             </div>
           </div>
         </nav>
