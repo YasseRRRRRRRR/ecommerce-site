@@ -20,9 +20,9 @@ interface ProductDetailsProps {
     image_alt: string;
     sizes: string;
   };
-  Submit: () => Promise<void>;
+  CurrentUserId: string | undefined;
 }
-const ProductDetails = ({ Product, Submit }: ProductDetailsProps) => {
+const ProductDetails = ({ Product, CurrentUserId }: ProductDetailsProps) => {
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
   }
@@ -48,9 +48,10 @@ const ProductDetails = ({ Product, Submit }: ProductDetailsProps) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: "your-user-id-here", // You can fetch user ID from session or supabase client
+          user_id: CurrentUserId,
           product_id: Product.id,
-          locale: "en", // You can pass any other details like locale here
+          size: selectedSize.name,
+          locale: "en",
         }),
       });
 

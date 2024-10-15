@@ -21,7 +21,7 @@ const MainNavBar = async ({ lang }: { lang: string }) => {
     <div>
       <NavBarClient lang={lang}>
         <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-          {!user ? (
+          {user?.user ? (
             // <Link
             //   href={`../${lang}/login`}
             //   className="text-sm font-medium text-gray-700 hover:text-gray-800"
@@ -39,14 +39,14 @@ const MainNavBar = async ({ lang }: { lang: string }) => {
           ) : (
             <>
               <Link
-                href={`../${lang}/login`}
+                href={`/${lang}/login`}
                 className="text-sm font-medium text-gray-700 hover:text-gray-800"
               >
                 Sign in
               </Link>
               <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
               <Link
-                href={`../${lang}/signup`}
+                href={`/${lang}/signup`}
                 className="text-sm font-medium text-gray-700 hover:text-gray-800"
               >
                 Create account
@@ -75,7 +75,7 @@ const MainNavBar = async ({ lang }: { lang: string }) => {
         {/* Cart */}
         <div className="ml-4 flow-root lg:ml-6">
           <Link
-            href={`../${lang}/cart`}
+            href={`/${lang}/cart`}
             className="group -m-2 p-2 flex items-center"
           >
             <ShoppingBagIcon

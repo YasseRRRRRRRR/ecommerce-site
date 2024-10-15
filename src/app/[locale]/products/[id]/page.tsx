@@ -51,7 +51,7 @@ const ProductPage = async ({
 
   return (
     <div>
-      <ProductDetails Product={Product} Submit={submit} />
+      <ProductDetails Product={Product} CurrentUserId={user?.user?.id} />
     </div>
   );
 };

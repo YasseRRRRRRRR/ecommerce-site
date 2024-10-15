@@ -338,7 +338,7 @@ const NavBarClient = ({ children, lang }: { children: any; lang: string }) => {
         {advert && (
           <>
             <p className="hidden relative sm:flex bg-red-600 h-10  items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
-              Get free delivery on orders over €500 to the the Schengen Area
+              Get free delivery on orders over €900 to the the Schengen Area
               <button
                 className="absolute left-[98%]"
                 onClick={() => setAdvert(false)}

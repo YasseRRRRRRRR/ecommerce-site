@@ -38,7 +38,7 @@ export default async function Home({
 
   return (
     <div className="flex flex-col justify-center h-screen items-center">
-      {user ? <>logged in as {user?.user?.email}</> : <>user not logged in</>}
+      {user?.user ? <>logged in as {user?.user?.email}</> : <>fuckeri</>}
       <br />
       <Testing thing={orders} />
 

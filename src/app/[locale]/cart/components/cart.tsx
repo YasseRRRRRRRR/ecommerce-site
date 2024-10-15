@@ -17,7 +17,7 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
     return orderItems.reduce(
       (
         totalAmount: number,
-        order_item: { product_id: any; quantity: number }
+        order_item: { product_id: any; quantity: number; size: string }
       ) => {
         const product = Products.find(
           (product: { id: any }) => product.id === order_item.product_id
@@ -59,59 +59,12 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
           role="list"
           className="border-t border-b border-gray-200 divide-y divide-gray-200"
         >
-          {Products?.map(
-            (
-              product: {
-                id: React.Key | null | undefined;
-                image: any;
-                image_alt: string;
-                name:
-                  | string
-                  | number
-                  | bigint
-                  | boolean
-                  | React.ReactElement<
-                      any,
-                      string | React.JSXElementConstructor<any>
-                    >
-                  | Iterable<React.ReactNode>
-                  | React.ReactPortal
-                  | Promise<React.AwaitedReactNode>
-                  | null
-                  | undefined;
-                color:
-                  | string
-                  | number
-                  | bigint
-                  | boolean
-                  | React.ReactElement<
-                      any,
-                      string | React.JSXElementConstructor<any>
-                    >
-                  | Iterable<React.ReactNode>
-                  | React.ReactPortal
-                  | Promise<React.AwaitedReactNode>
-                  | null
-                  | undefined;
-                price:
-                  | string
-                  | number
-                  | bigint
-                  | boolean
-                  | React.ReactElement<
-                      any,
-                      string | React.JSXElementConstructor<any>
-                    >
-                  | Iterable<React.ReactNode>
-                  | React.ReactPortal
-                  | Promise<React.AwaitedReactNode>
-                  | null
-                  | undefined;
-                inStock: any;
-                restockTime: any;
-              },
-              productIdx: string | number
-            ) => (
+          {Products?.map((product: any, productIdx: number) => {
+            const orderItem = orderItems?.find(
+              (item: { product_id: any }) => item.product_id === product.id
+            );
+
+            return (
               <li key={product.id} className="flex py-6 sm:py-10">
                 <div className="flex-shrink-0">
                   <Image
@@ -138,9 +91,7 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                         </h3>
                       </div>
                       <div className="mt-1 flex text-sm">
-                        <p className="text-gray-500">
-                          {orderItems?.[productIdx]?.size}
-                        </p>
+                        <p className="text-gray-500">{orderItem?.size}</p>
                         {product.color ? (
                           <p className="ml-4 pl-4 border-l border-gray-200 text-gray-500">
                             {product.color}
@@ -195,8 +146,8 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                   </p>
                 </div>
               </li>
-            )
-          )}
+            );
+          })}
         </ul>
       </section>
 
