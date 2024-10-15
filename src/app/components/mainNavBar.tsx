@@ -22,12 +22,6 @@ const MainNavBar = async ({ lang }: { lang: string }) => {
       <NavBarClient lang={lang}>
         <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
           {user?.user ? (
-            // <Link
-            //   href={`../${lang}/login`}
-            //   className="text-sm font-medium text-gray-700 hover:text-gray-800"
-            // >
-            //   Log Out
-            // </Link>
             <form action={logout}>
               <button
                 className="text-sm font-medium text-gray-700 hover:text-gray-800"

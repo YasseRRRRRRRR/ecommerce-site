@@ -68,10 +68,11 @@ export async function POST(request: Request) {
         quantity: 1,
         size: size,
       });
-
+      window.location.reload();
       if (insertError) throw insertError;
 
       console.log("Added to the bag.");
+
       return NextResponse.json({
         message: "Product added to the bag successfully",
       });
