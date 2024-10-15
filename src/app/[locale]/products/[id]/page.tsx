@@ -36,19 +36,6 @@ const ProductPage = async ({
     .eq("user_id", user.user?.id)
     .single();
 
-  const submit = async () => {
-    "use server";
-    if (!user) {
-      redirect(`/${locale}/login`);
-    }
-    if (!order) {
-      console.log("this is the user's first order");
-    }
-    console.log("added to the bag :)");
-    // try {
-    // } catch (error) {}
-  };
-
   return (
     <div>
       <ProductDetails Product={Product} CurrentUserId={user?.user?.id} />

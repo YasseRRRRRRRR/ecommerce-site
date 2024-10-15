@@ -1,9 +1,10 @@
 "use client";
-import { Check, CircleHelp, Clock, Minus, Plus, X, XIcon } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { Check, CircleHelp, Clock } from "lucide-react";
+import React, { useState } from "react";
 import EditSize from "./editSize";
 import Image from "next/image";
 import Link from "next/link";
+import Testing from "../../components/testing";
 
 const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
   const [orderItems, setOrderItems] = useState(initialOrderItems);
@@ -54,21 +55,28 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
         <h2 id="cart-heading" className="sr-only">
           Items in your shopping cart
         </h2>
-
+        <Testing thing={orderItems} />
         <ul
           role="list"
           className="border-t border-b border-gray-200 divide-y divide-gray-200"
         >
-          {Products?.map((product: any, productIdx: number) => {
-            const orderItem = orderItems?.find(
-              (item: { product_id: any }) => item.product_id === product.id
+          {orderItems?.map((orderItem: any, index: number) => {
+            const product = Products.find(
+              (product: { id: any }) => product.id === orderItem.product_id
             );
 
+            if (!product) {
+              console.warn(`Product not found for order item: ${orderItem}`);
+              return null; // Skip rendering if product is not found
+            }
+
+            // Use a unique key for each order item
+            const uniqueKey = `${product.id}-${orderItem.size}-${index}`;
+
             return (
-              <li key={product.id} className="flex py-6 sm:py-10">
+              <li key={uniqueKey} className="flex py-6 sm:py-10">
                 <div className="flex-shrink-0">
                   <Image
-                    // maybe get the dimension directly from the database
                     width={700}
                     height={700}
                     src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product_images/${product.image}`}
@@ -91,7 +99,7 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                         </h3>
                       </div>
                       <div className="mt-1 flex text-sm">
-                        <p className="text-gray-500">{orderItem?.size}</p>
+                        <p className="text-gray-500">{orderItem.size}</p>
                         {product.color ? (
                           <p className="ml-4 pl-4 border-l border-gray-200 text-gray-500">
                             {product.color}
@@ -99,30 +107,16 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                         ) : null}
                       </div>
                       <p className="mt-1 text-sm font-medium text-gray-900">
-                        {product.price}
+                        €{product.price}
                       </p>
                     </div>
 
-                    {/* <div className="mt-4 sm:mt-0 sm:pr-9">
-                      <label htmlFor="counter-input" className="sr-only">
-                        Choose quantity:
-                      </label> */}
                     <EditSize
                       productId={product.id}
                       orderId={order?.id}
-                      quantity={orderItems?.[productIdx]?.quantity}
+                      quantity={orderItem.quantity}
                       onQuantityChange={handleQuantityChange}
                     />
-                    {/* <div className="absolute top-0 right-0">
-                        <button
-                          type="button"
-                          className="-m-2 p-2 inline-flex text-gray-400 hover:text-gray-500"
-                        >
-                          <span className="sr-only">Remove</span>
-                          <XIcon className="h-5 w-5" aria-hidden="true" />
-                        </button>
-                      </div>
-                    </div> */}
                   </div>
 
                   <p className="mt-4 flex text-sm text-gray-700 space-x-2">
@@ -240,7 +234,7 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                   />
                 </svg>
               </Link>
-            </div>{" "}
+            </div>
           </div>
         </div>
       </section>
