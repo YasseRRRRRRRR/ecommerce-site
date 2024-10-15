@@ -36,13 +36,26 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
   };
 
   // Update orderItems when quantity changes
+  // const handleQuantityChange = (
+  //   productId: React.Key | null | undefined,
+  //   newQuantity: number
+  // ) => {
+  //   setOrderItems((prevOrderItems: any[]) =>
+  //     prevOrderItems.map((item) =>
+  //       item.product_id === productId && item
+  //         ? { ...item, quantity: newQuantity }
+  //         : item
+  //     )
+  //   );
+  // };
   const handleQuantityChange = (
     productId: React.Key | null | undefined,
+    size: string,
     newQuantity: number
   ) => {
     setOrderItems((prevOrderItems: any[]) =>
       prevOrderItems.map((item) =>
-        item.product_id === productId
+        item.product_id === productId && item.size === size
           ? { ...item, quantity: newQuantity }
           : item
       )
@@ -110,12 +123,24 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                         €{product.price}
                       </p>
                     </div>
-
+                    {/* 
                     <EditSize
+                      OrderItemId={orderItem.id}
                       productId={product.id}
                       orderId={order?.id}
                       quantity={orderItem.quantity}
+                      size={orderItem.size}
                       onQuantityChange={handleQuantityChange}
+                    /> */}
+                    <EditSize
+                      OrderItemId={orderItem.id}
+                      productId={product.id}
+                      orderId={order?.id}
+                      quantity={orderItem.quantity}
+                      size={orderItem.size}
+                      onQuantityChange={(id, qty) =>
+                        handleQuantityChange(product.id, orderItem.size, qty)
+                      }
                     />
                   </div>
 

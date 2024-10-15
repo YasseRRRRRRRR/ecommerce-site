@@ -1,26 +1,28 @@
-"use client";
 import { Minus, Plus, XIcon } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { handleDecrement, handleIncrement } from "../actions/actions";
 
 type EditProps = {
+  OrderItemId: React.Key | null | undefined;
   productId: React.Key | null | undefined;
   orderId: string;
   quantity: number;
+  size: string;
   onQuantityChange: (
     productId: React.Key | null | undefined,
     newQuantity: number
   ) => void;
 };
-
 const EditSize = ({
+  OrderItemId,
   productId,
   orderId,
   quantity: initialQuantity,
+  size,
   onQuantityChange,
 }: EditProps) => {
   const [quantity, setQuantity] = useState(initialQuantity);
-  const [loading, setLoading] = useState(false); // To prevent multiple clicks during optimistic update
+  const [loading, setLoading] = useState(false);
 
   const decrementQuantity = async () => {
     if (quantity > 1 && !loading) {
@@ -28,11 +30,17 @@ const EditSize = ({
       setQuantity(prevQuantity - 1);
       setLoading(true);
 
-      const success = await handleDecrement(productId, orderId, prevQuantity);
+      const success = await handleDecrement(
+        OrderItemId,
+        // productId,
+        // orderId,
+        // size,
+        prevQuantity
+      );
       if (!success) {
         setQuantity(prevQuantity);
       } else {
-        onQuantityChange(productId, quantity - 1); // Notify parent of the change
+        onQuantityChange(productId, prevQuantity - 1); // Send the previous quantity - 1
       }
 
       setLoading(false);
@@ -45,11 +53,17 @@ const EditSize = ({
       setQuantity(prevQuantity + 1);
       setLoading(true);
 
-      const success = await handleIncrement(productId, orderId, prevQuantity);
+      const success = await handleIncrement(
+        OrderItemId,
+        // productId,
+        // orderId,
+        // size,
+        prevQuantity
+      );
       if (!success) {
         setQuantity(prevQuantity);
       } else {
-        onQuantityChange(productId, quantity + 1); // Notify parent of the change
+        onQuantityChange(productId, prevQuantity + 1); // Send the previous quantity + 1
       }
 
       setLoading(false);
@@ -90,7 +104,7 @@ const EditSize = ({
             <Plus className="h-2.5 w-2.5" />
           </button>
         </form>
-      </div>{" "}
+      </div>
       <div className="absolute top-0 right-0">
         <button
           type="button"

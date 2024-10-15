@@ -3,8 +3,10 @@
 import { createClient } from "@/utils/supabase/server";
 
 export const handleIncrement = async (
-  productId: React.Key | null | undefined,
-  orderId: string,
+  OrderItemId: React.Key | null | undefined,
+  // productId: React.Key | null | undefined,
+  // orderId: string,
+  // size: string,
   quantity: number
 ): Promise<boolean> => {
   const supabase = createClient();
@@ -12,26 +14,22 @@ export const handleIncrement = async (
   const { data: new_order_item, error } = await supabase
     .from("order_items")
     .update({ quantity: quantity + 1 })
-    .eq("order_id", orderId)
-    .eq("product_id", productId)
+    .eq("id", OrderItemId)
     .select();
 
   if (error) {
     console.error("Error incrementing quantity:", error.message);
     return false;
   }
-  console.log(
-    "Quantity incremented successfully,",
-    new_order_item,
-    orderId,
-    productId
-  );
+  console.log("Quantity incremented successfully,", new_order_item);
   return true;
 };
 
 export const handleDecrement = async (
-  productId: React.Key | null | undefined,
-  orderId: string,
+  OrderItemId: React.Key | null | undefined,
+  // productId: React.Key | null | undefined,
+  // orderId: string,
+  // size: string,
   quantity: number
 ): Promise<boolean> => {
   const supabase = createClient();
@@ -39,20 +37,14 @@ export const handleDecrement = async (
     const { data: new_order_item, error } = await supabase
       .from("order_items")
       .update({ quantity: quantity - 1 })
-      .eq("product_id", productId)
-      .eq("order_id", orderId)
+      .eq("id", OrderItemId)
       .select();
 
     if (error) {
       console.error("Error decrementing quantity:", error.message);
       return false;
     }
-    console.log(
-      "Quantity decrement successfully,",
-      new_order_item,
-      orderId,
-      productId
-    );
+    console.log("Quantity decrement successfully,", new_order_item);
     return true;
   }
   return false;
