@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import EditSize from "./editSize";
 import Image from "next/image";
 import Link from "next/link";
-import Testing from "../../components/testing";
 
 const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
   const [orderItems, setOrderItems] = useState(initialOrderItems);
@@ -36,18 +35,6 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
   };
 
   // Update orderItems when quantity changes
-  // const handleQuantityChange = (
-  //   productId: React.Key | null | undefined,
-  //   newQuantity: number
-  // ) => {
-  //   setOrderItems((prevOrderItems: any[]) =>
-  //     prevOrderItems.map((item) =>
-  //       item.product_id === productId && item
-  //         ? { ...item, quantity: newQuantity }
-  //         : item
-  //     )
-  //   );
-  // };
   const handleQuantityChange = (
     productId: React.Key | null | undefined,
     size: string,
@@ -68,7 +55,6 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
         <h2 id="cart-heading" className="sr-only">
           Items in your shopping cart
         </h2>
-        <Testing thing={orderItems} />
         <ul
           role="list"
           className="border-t border-b border-gray-200 divide-y divide-gray-200"
@@ -123,15 +109,6 @@ const Cart = ({ initialProducts, initialOrderItems, locale, order }: any) => {
                         €{product.price}
                       </p>
                     </div>
-                    {/* 
-                    <EditSize
-                      OrderItemId={orderItem.id}
-                      productId={product.id}
-                      orderId={order?.id}
-                      quantity={orderItem.quantity}
-                      size={orderItem.size}
-                      onQuantityChange={handleQuantityChange}
-                    /> */}
                     <EditSize
                       OrderItemId={orderItem.id}
                       productId={product.id}
