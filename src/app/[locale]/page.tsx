@@ -41,6 +41,7 @@ export default async function Home({
   // }
 
   return (
+    // logginning in testing
     // <div className="flex flex-col justify-center h-screen items-center">
     //   {user?.user ? <>logged in as {user?.user?.email}</> : <>fuckeri</>}
     //   <br />

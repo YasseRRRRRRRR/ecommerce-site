@@ -13,7 +13,7 @@ const CascadingAvalanch = () => {
 
   return (
     <>
-      <div className="absolute w-[400px] overflow-hidden wrapper flex justify-center">
+      <div className=" w-[400px] overflow-hidden wrapper flex justify-center">
         {shuffledImages.slice(0, 3).map((imageIndex, i) => (
           <div
             style={{
@@ -32,7 +32,7 @@ const CascadingAvalanch = () => {
           </div>
         ))}
       </div>
-      <div className="absolute w-[400px] overflow-hidden wrapper hidden xl:flex justify-center">
+      <div className="w-[400px] overflow-hidden wrapper hidden xl:flex justify-center">
         {shuffledImages.slice(3).map((imageIndex, i) => (
           <div
             style={{
