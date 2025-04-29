@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { logout } from "./logout/actions";
-import { X, Star, Check } from "lucide-react";
+import { X, Star, Check, ArrowRight } from "lucide-react";
 import CascadingAvalanch from "../components/cascadingAvalanch";
 import MaxWidthWrapper from "../components/maxWidthWrapper";
 
@@ -82,7 +82,7 @@ export default async function Home({
     //     <button type="submit">logout</button>
     //   </form>
     // </div>
-    <div className="bg-slate-50 my-14">
+    <div className="bg-slate-50 my-8">
       <section>
         {/* <div className="pb-24 pt-10 lg:grid lg:grid-cols-2 sm:pb-32 lg:gap-x-0 xl:gap-x-8 lg:pt-24 xl:pt-32 lg:ob-52"> */}
         <MaxWidthWrapper className="pb-24 pt-10 lg:grid lg:grid-cols-2 sm:pb-32 lg:gap-x-0 xl:gap-x-8 lg:pt-24 xl:pt-32 lg:ob-52">
@@ -93,7 +93,7 @@ export default async function Home({
                 <Image
                   width={200}
                   height={200}
-                  src="/banner-1.jpeg"
+                  src="/cat.jpg"
                   alt="the cutest illustration of cat on a unicycle afore a red background"
                 />
               </div>
@@ -120,13 +120,11 @@ export default async function Home({
               <div className="mt-8 flex justify-center gap-2">
                 <Link
                   href="/configure/collections"
-                  // className={buttonVariants({
-                  //   size: "lg",
-                  // })}
+                  className="inline-block text-center bg-red-600 border border-transparent rounded-md py-3 px-8 font-medium text-white hover:bg-red-700"
                 >
-                  Get Started
+                  Shop Collection
                   {/* not sure if i should leave it or take it away */}
-                  {/* <ArrowRight />  */}
+                  {/* <ArrowRight /> */}
                 </Link>
               </div>
               <ul className="mt-8 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
