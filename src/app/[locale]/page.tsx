@@ -12,6 +12,74 @@ import { X, Star, Check, ArrowRight } from "lucide-react";
 import CascadingAvalanch from "../components/cascadingAvalanch";
 import MaxWidthWrapper from "../components/maxWidthWrapper";
 
+// temp data
+const trendingProducts = [
+  {
+    id: 1,
+    name: "Machined Pen",
+    color: "Black",
+    price: "$35",
+    href: "#",
+    imageSrc:
+      "/man-transports-unicycle-street-aunicycle-electric-close-up-198572181-964340926.jpg",
+    imageAlt:
+      "Black machined steel pen with hexagonal grip and small white logo at top.",
+    availableColors: [
+      { name: "Black", colorBg: "#111827" },
+      { name: "Brass", colorBg: "#FDE68A" },
+      { name: "Chrome", colorBg: "#E5E7EB" },
+    ],
+  },
+  {
+    id: 1,
+    name: "Machined Pen",
+    color: "Black",
+    price: "$35",
+    href: "#",
+    imageSrc:
+      "/man-transports-unicycle-street-aunicycle-electric-close-up-198572181-964340926.jpg",
+    imageAlt:
+      "Black machined steel pen with hexagonal grip and small white logo at top.",
+    availableColors: [
+      { name: "Black", colorBg: "#111827" },
+      { name: "Brass", colorBg: "#FDE68A" },
+      { name: "Chrome", colorBg: "#E5E7EB" },
+    ],
+  },
+  {
+    id: 1,
+    name: "Machined Pen",
+    color: "Black",
+    price: "$35",
+    href: "#",
+    imageSrc:
+      "/man-transports-unicycle-street-aunicycle-electric-close-up-198572181-964340926.jpg",
+    imageAlt:
+      "Black machined steel pen with hexagonal grip and small white logo at top.",
+    availableColors: [
+      { name: "Black", colorBg: "#111827" },
+      { name: "Brass", colorBg: "#FDE68A" },
+      { name: "Chrome", colorBg: "#E5E7EB" },
+    ],
+  },
+  {
+    id: 1,
+    name: "Machined Pen",
+    color: "Black",
+    price: "$35",
+    href: "#",
+    imageSrc:
+      "/man-transports-unicycle-street-aunicycle-electric-close-up-198572181-964340926.jpg",
+    imageAlt:
+      "Black machined steel pen with hexagonal grip and small white logo at top.",
+    availableColors: [
+      { name: "Black", colorBg: "#111827" },
+      { name: "Brass", colorBg: "#FDE68A" },
+      { name: "Chrome", colorBg: "#E5E7EB" },
+    ],
+  },
+  // More products...
+];
 export default async function Home({
   params: { locale },
 }: {
@@ -83,6 +151,7 @@ export default async function Home({
     //   </form>
     // </div>
     <div className="bg-slate-50 my-8">
+      {/* hero section */}
       <section>
         {/* <div className="pb-24 pt-10 lg:grid lg:grid-cols-2 sm:pb-32 lg:gap-x-0 xl:gap-x-8 lg:pt-24 xl:pt-32 lg:ob-52"> */}
         <MaxWidthWrapper className="pb-24 pt-10 lg:grid lg:grid-cols-2 sm:pb-32 lg:gap-x-0 xl:gap-x-8 lg:pt-24 xl:pt-32 lg:ob-52">
@@ -190,19 +259,92 @@ export default async function Home({
         </MaxWidthWrapper>
         {/* </div> */}
       </section>
+      <section aria-labelledby="trending-heading" className="bg-white">
+        <div className="py-16 sm:py-24 lg:max-w-7xl lg:mx-auto lg:py-32 lg:px-8">
+          <div className="px-4 flex items-center justify-between sm:px-6 lg:px-0">
+            <h2
+              id="trending-heading"
+              className="text-2xl font-extrabold tracking-tight text-gray-900"
+            >
+              Trending products
+            </h2>
+            <a
+              href="#"
+              className="hidden sm:block text-sm font-semibold text-red-600 hover:text-red-500"
+            >
+              See More<span aria-hidden="true"> &rarr;</span>
+            </a>
+          </div>
+
+          <div className="mt-8 relative">
+            <div className="relative w-full overflow-x-auto">
+              <ul
+                role="list"
+                className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:space-x-0 lg:grid lg:grid-cols-4 lg:gap-x-8"
+              >
+                {trendingProducts.map((product) => (
+                  <li
+                    key={product.id}
+                    className="w-64 inline-flex flex-col text-center lg:w-auto"
+                  >
+                    <div className="group relative">
+                      <div className="w-full bg-gray-200 rounded-md overflow-hidden aspect-w-1 aspect-h-1">
+                        <img
+                          src={product.imageSrc}
+                          alt={product.imageAlt}
+                          className="w-full h-full object-center object-cover group-hover:opacity-75"
+                        />
+                      </div>
+                      <div className="mt-6">
+                        <p className="text-sm text-gray-500">{product.color}</p>
+                        <h3 className="mt-1 font-semibold text-gray-900">
+                          <a href={product.href}>
+                            <span className="absolute inset-0" />
+                            {product.name}
+                          </a>
+                        </h3>
+                        <p className="mt-1 text-gray-900">{product.price}</p>
+                      </div>
+                    </div>
+
+                    <h4 className="sr-only">Available colors</h4>
+                    <ul
+                      role="list"
+                      className="mt-auto pt-6 flex items-center justify-center space-x-3"
+                    >
+                      {product.availableColors.map((color) => (
+                        <li
+                          key={color.name}
+                          className="w-4 h-4 rounded-full border border-black border-opacity-10"
+                          style={{ backgroundColor: color.colorBg }}
+                        >
+                          <span className="sr-only">{color.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-12 px-4 sm:hidden">
+            <a
+              href="#"
+              className="text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+            >
+              See everything<span aria-hidden="true"> &rarr;</span>
+            </a>
+          </div>
+        </div>
+      </section>
       {/* testimonials*/}
       <section className="bg-slate-100 py-24">
         {/* <div className="flex flex-col items-center gap-16 sm:gap-32"> */}
         <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-32">
           <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
             <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
-              What our{" "}
-              <span className="relative px-2">
-                customers
-                {/* cahnge this imediatly it looks out of place in a unicycle website */}
-                {/* <Icons.underline className="hidden sm:block pointer-events-none absolute inset-x-0 -bottom-6 text-red-500" /> */}
-              </span>{" "}
-              said
+              What are people saying?
             </h2>
             <Image
               width={200}

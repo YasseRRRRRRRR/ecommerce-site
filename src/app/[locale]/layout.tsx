@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import NavBar from "../components/navBarClient";
 import MainNavBar from "../components/mainNavBar";
+import MainFooter from "../components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
           <main className="flex flex-col min-h-[calc(100vh-3.5rem-1px)] ">
             <div className="flex-1 flex flex-col h-full">{children}</div>
           </main>
+          <MainFooter />
         </body>
       </NextIntlClientProvider>
     </html>
