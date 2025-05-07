@@ -7,7 +7,7 @@ const nextConfig = {
   // TO Do
   // domains to accept for backend stuff
   images: {
-    domains: ["127.0.0.1", "exwylzbmmpvufwujaehh.supabase.co"],
+    domains: ["127.0.0.1", "vhptatvxibvsrjihbttq.supabase.co"],
     remotePatterns: [
       {
         protocol: "https",

@@ -56,9 +56,7 @@ export default function ToolbarDynamic() {
             <div className="overflow-hidden p-2">
               {!isOpen ? (
                 <div className="flex ">
-                  {/* <Button disabled ariaLabel="User profile">
-                    <User className="h-5 w-5" />
-                  </Button> */}
+                  <span className="sr-only">Search</span>
                   <Button
                     onClick={() => setIsOpen(true)}
                     ariaLabel="Search notes"

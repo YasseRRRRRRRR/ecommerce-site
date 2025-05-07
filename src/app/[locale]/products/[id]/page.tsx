@@ -2,6 +2,7 @@ import React from "react";
 import ProductDetails from "./components/productDetails";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { p } from "framer-motion/client";
 
 const ProductPage = async ({
   params: { locale, id },
@@ -38,6 +39,7 @@ const ProductPage = async ({
 
   return (
     <div>
+      {/* {Product. == null && <p>there is something going wrong</p>} */}
       <ProductDetails Product={Product} CurrentUserId={user?.user?.id} />
     </div>
   );
