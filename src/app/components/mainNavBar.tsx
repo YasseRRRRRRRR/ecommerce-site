@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { SearchIcon, ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
 import { logout } from "../[locale]/logout/actions";
+import ToolbarDynamic from "./ToolbarSearch";
 
 const MainNavBar = async ({ lang }: { lang: string }) => {
   const supabase = createClient();
@@ -59,11 +60,12 @@ const MainNavBar = async ({ lang }: { lang: string }) => {
           </a>
         </div>
         {/* Search */}
-        <div className="flex lg:ml-6">
-          <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+        <div className="flex lg:ml-6 relative">
+          {/* <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
             <span className="sr-only">Search</span>
             <SearchIcon className="w-6 h-6" aria-hidden="true" />
-          </a>
+          </a> */}
+          <ToolbarDynamic />
         </div>
 
         {/* Cart */}
