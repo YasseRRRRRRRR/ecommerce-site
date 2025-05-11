@@ -46,7 +46,7 @@ const navigation = {
           id: "brand",
           name: "Brand",
           items: [
-            { name: "Club", href: "#" },
+            { name: "Club", href: "/products" },
             { name: "Impact", href: "#" },
             { name: "Nimbus", href: "#" },
             { name: "Kris Holm", href: "#" },
@@ -238,7 +238,7 @@ const NavBarClient = ({ children, lang }: { children: any; lang: string }) => {
                               />
                             </div>
                             <a
-                              href={item.href}
+                              href={`/${lang}/${item.href}`}
                               className="mt-6 block font-medium text-gray-900"
                             >
                               <span
@@ -269,7 +269,7 @@ const NavBarClient = ({ children, lang }: { children: any; lang: string }) => {
                             {section.items.map((item) => (
                               <li key={item.name} className="flow-root">
                                 <a
-                                  href={item.href}
+                                  href={`/${lang}/${item.href}`}
                                   className="-m-2 p-2 block text-gray-500"
                                 >
                                   {item.name}
@@ -429,7 +429,7 @@ const NavBarClient = ({ children, lang }: { children: any; lang: string }) => {
                                               />
                                             </div>
                                             <a
-                                              href={item.href}
+                                              href={`/${lang}/${item.href}`}
                                               className="mt-6 block font-medium text-gray-900"
                                             >
                                               <span
@@ -467,7 +467,7 @@ const NavBarClient = ({ children, lang }: { children: any; lang: string }) => {
                                                   className="flex"
                                                 >
                                                   <a
-                                                    href={item.href}
+                                                    href={`/${lang}/${item.href}`}
                                                     className="hover:text-gray-800"
                                                   >
                                                     {item.isUnique ? (
